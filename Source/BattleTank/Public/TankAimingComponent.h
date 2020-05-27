@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Kismet/GameplayStatics.h"
+
 #include "TankAimingComponent.generated.h"
 
 
@@ -16,7 +18,11 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	// Sets references to components of the tank.
+	void SetComponentReferences
+	(UStaticMeshComponent* BarrelToSet, UStaticMeshComponent* Turret);
+
+	bool isHighArcFiringEnabled = false; /// TODO: Make BP editable.
 
 protected:
 	// Called when the game starts
@@ -26,8 +32,21 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void AimAt(FVector target, float LaunchSpeed) const;
+	void AimAt(FVector target, float LaunchSpeed);
 
 private:
-	UStaticMeshComponent* Barrel_SM = nullptr;
+	UStaticMeshComponent* Barrel = nullptr;
+	UStaticMeshComponent* Turret = nullptr;
+
+	/// Used to recycle tick fields.
+	struct AimParams
+	{
+		FVector LaunchVelocity;
+		FVector StartLocation;
+		FVector AimDirection;
+	};
+	AimParams AimP;
+
+	/// Moves the Barrel towards PP.AimDirection.
+	void MoveBarrelTowardsAimDirection();
 };

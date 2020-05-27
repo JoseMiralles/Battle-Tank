@@ -24,9 +24,9 @@ void ATank::AimAt(FVector HitLocation)
 	this->TankAimingComponent->AimAt(HitLocation, this->LaunchSpeed);
 }
 
-void ATank::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void ATank::SetBarrelReference(UStaticMeshComponent* BarrelToSet, UStaticMeshComponent* TurretToSet)
 {
-	this->TankAimingComponent->SetBarrelReference(BarrelToSet);
+	this->TankAimingComponent->SetComponentReferences(BarrelToSet, TurretToSet);
 }
 
 // Called every frame

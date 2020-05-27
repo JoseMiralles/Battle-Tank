@@ -25,7 +25,7 @@ public:
 	void AimAt(FVector HitLocation);
 	/// Passes a reference of the Barrel SM to the tank's TankAimingComponent.
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet); // Should be called from the Tank_BP event graph.
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet, UStaticMeshComponent* TurretToSet); // Should be called from the Tank_BP event graph.
 
 public:
 	/// Launch speed of the projectile.

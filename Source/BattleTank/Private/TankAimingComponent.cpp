@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Components/StaticMeshComponent.h"
 #include "TankAimingComponent.h"
+#include "Components/StaticMeshComponent.h"
+
+#define OUT
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -13,9 +15,11 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 // This is called from the Tank_BP event graph.
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetComponentReferences
+(UStaticMeshComponent* BarrelToSet, UStaticMeshComponent* Turret)
 {
-	this->Barrel_SM = BarrelToSet;
+	this->Barrel = BarrelToSet;
+	this->Turret = Turret;
 }
 
 
@@ -37,9 +41,31 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector target, float launchSpeed) const
+void UTankAimingComponent::AimAt(FVector target, float launchSpeed)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("%s is targeting:\t%s"), *this->GetName(), *target.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("projectile speed:\t%f"), launchSpeed);
+	if (!this->Barrel) return;
+
+	AimP.LaunchVelocity = FVector(0);
+	AimP.StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
+	if (UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		OUT AimP.LaunchVelocity,
+		AimP.StartLocation,
+		target,
+		launchSpeed,
+		isHighArcFiringEnabled,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace))
+	{
+		AimP.AimDirection = AimP.LaunchVelocity.GetSafeNormal();
+		MoveBarrelTowardsAimDirection();
+	}
+}
+
+void UTankAimingComponent::MoveBarrelTowardsAimDirection()
+{
+
 }
 

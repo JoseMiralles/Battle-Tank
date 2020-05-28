@@ -76,5 +76,11 @@ void UTankAimingComponent::MoveBarrelTowardsAimDirection()
 	AimP.DeltaRotator = AimP.AimAsRotator - AimP.BarrelRotator;
 
 	Barrel->Elevate(AimP.DeltaRotator.Pitch);
+
+	// Rotate the Turret
+	float RotationChange = AimP.DeltaRotator.Yaw * 5 * GetWorld()->DeltaTimeSeconds;
+	float NewRotation = Turret->RelativeRotation.Yaw + RotationChange;
+
+	Turret->SetRelativeRotation(FRotator(0, NewRotation, 0));
 }
 

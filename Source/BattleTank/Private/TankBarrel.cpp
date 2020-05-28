@@ -17,6 +17,4 @@ void UTankBarrel::Elevate(float Direction)
 	BP.RawNewElevation = FMath::Clamp<float>(BP.RawNewElevation, MinElevation, MaxElevation);
 
 	SetRelativeRotation(FRotator(BP.RawNewElevation, 0, 0));
-
-	UE_LOG(LogTemp, Warning, TEXT("Elevating by:\t%f"), BP.Time);
 }

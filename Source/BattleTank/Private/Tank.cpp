@@ -6,6 +6,9 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
+
+#define OUT
 
 // Sets default values
 ATank::ATank()
@@ -21,6 +24,9 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+
+	///Store firing socket, I don't want to call this on every frame.
+	FP.FSocket = this->Barrel->GetSocketByName(FName("Projectile"));
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -31,6 +37,14 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	this->TankAimingComponent->SetComponentReferences(BarrelToSet, TurretToSet);
+	this->Barrel = BarrelToSet;
+}
+
+void ATank::FireCannon()
+{
+	FP.FSocket->GetSocketTransform (OUT FP.STransform, Barrel);
+	GetWorld()->SpawnActor<AProjectile>
+		(this->ProjectileBlueprint, FP.STransform)->LaunchProjectile(this->LaunchSpeed);
 }
 
 // Called to bind functionality to input

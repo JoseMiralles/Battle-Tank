@@ -63,7 +63,7 @@ void UTankAimingComponent::AimAt(FVector target, float launchSpeed)
 	{
 		AimP.AimDirection = AimP.LaunchVelocity.GetSafeNormal();
 		MoveBarrelTowardsAimDirection();
-		Barrel->Elevate(5.f);
+		Barrel->Elevate(UTankBarrel::ElevationDirection::Up);
 	}
 }
 

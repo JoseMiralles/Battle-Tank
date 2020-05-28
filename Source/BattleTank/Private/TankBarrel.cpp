@@ -6,7 +6,8 @@
 UTankBarrel::UTankBarrel()
 {}
 
-void UTankBarrel::Elevate(float DegreesPerSecond)
+void UTankBarrel::Elevate(ElevationDirection Direction)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Elevating by:\t%f"), DegreesPerSecond);
+	BP.Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("Elevating by:\t%f"), BP.Time);
 }

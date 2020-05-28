@@ -6,8 +6,17 @@
 UTankBarrel::UTankBarrel()
 {}
 
-void UTankBarrel::Elevate(ElevationDirection Direction)
+void UTankBarrel::Elevate(float Direction)
 {
-	BP.Time = GetWorld()->GetTimeSeconds();
+	BP.RelativeSpeed = FMath::Clamp<float>
+		(Direction, -1, 1);
+
+	BP.ElevationChange = BP.RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
+	BP.RawNewElevation = RelativeRotation.Pitch + BP.ElevationChange;
+
+	BP.RawNewElevation = FMath::Clamp<float>(BP.RawNewElevation, MinElevation, MaxElevation);
+
+	SetRelativeRotation(FRotator(BP.RawNewElevation, 0, 0));
+
 	UE_LOG(LogTemp, Warning, TEXT("Elevating by:\t%f"), BP.Time);
 }

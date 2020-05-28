@@ -13,34 +13,28 @@ UCLASS( meta = (BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
-public:
-	/// Dictates the directions in which the turret should move.
-	enum ElevationDirection
-	{
-		Up = 1,
-		Down = -1,
-		none = 0
-	};
 
 public:
 	UTankBarrel();
 	
 	/// Elevates the barrel in the given direction. 1 = up, -1 = down
-	void Elevate(ElevationDirection Direction);
+	void Elevate(float direction);
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float MaxDegreesPerSecond = 20;
+	float MaxDegreesPerSecond = 5;
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float MinElevation = -15.f;
+	float MinElevation = -5.f;
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float MaxElevation = 90.f;
+	float MaxElevation = 45.f;
 
 	/// Used for recycling purposes.
 	struct BarrelParams
 	{
 		float Time;
+		float ElevationChange;
+		float RawNewElevation;
+		float RelativeSpeed;
 	};
 	BarrelParams BP;
 };

@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
-#include "Components/StaticMeshComponent.h"
+
+#include "Kismet/GameplayStatics.h"
+#include "TankBarrel.h"
 
 #define OUT
 
@@ -16,10 +18,10 @@ UTankAimingComponent::UTankAimingComponent()
 
 // This is called from the Tank_BP event graph.
 void UTankAimingComponent::SetComponentReferences
-(UStaticMeshComponent* BarrelToSet, UStaticMeshComponent* Turret)
+(UTankBarrel* BarrelToSet, UStaticMeshComponent* TurretToSet)
 {
 	this->Barrel = BarrelToSet;
-	this->Turret = Turret;
+	this->Turret = TurretToSet;
 }
 
 
@@ -61,11 +63,17 @@ void UTankAimingComponent::AimAt(FVector target, float launchSpeed)
 	{
 		AimP.AimDirection = AimP.LaunchVelocity.GetSafeNormal();
 		MoveBarrelTowardsAimDirection();
+		Barrel->Elevate(5.f);
 	}
 }
 
 void UTankAimingComponent::MoveBarrelTowardsAimDirection()
 {
-
+	/// Start rotation.
+	AimP.BarrelRotator = Barrel->GetForwardVector().Rotation();
+	/// End/Target rotation.
+	AimP.AimAsRotator = AimP.AimDirection.Rotation();
+	/// Difference.
+	AimP.DeltaRotator = AimP.AimAsRotator - AimP.BarrelRotator;
 }
 

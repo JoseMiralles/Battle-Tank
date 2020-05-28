@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Kismet/GameplayStatics.h"
+#include "Components/StaticMeshComponent.h"
 
 #include "TankAimingComponent.generated.h"
 
+class UTankBarrel;
 
+/// Holds barrel's properties and elevate method.
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
@@ -19,8 +21,7 @@ public:
 	UTankAimingComponent();
 
 	// Sets references to components of the tank.
-	void SetComponentReferences
-	(UStaticMeshComponent* BarrelToSet, UStaticMeshComponent* Turret);
+	void SetComponentReferences (UTankBarrel* BarrelToSet, UStaticMeshComponent* Turret);
 
 	bool isHighArcFiringEnabled = false; /// TODO: Make BP editable.
 
@@ -35,15 +36,19 @@ public:
 	void AimAt(FVector target, float LaunchSpeed);
 
 private:
-	UStaticMeshComponent* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr;
 	UStaticMeshComponent* Turret = nullptr;
 
-	/// Used to recycle tick fields.
+	/// Used to recycle tick variables.
 	struct AimParams
 	{
 		FVector LaunchVelocity;
 		FVector StartLocation;
 		FVector AimDirection;
+
+		FRotator BarrelRotator;
+		FRotator AimAsRotator;
+		FRotator DeltaRotator;
 	};
 	AimParams AimP;
 

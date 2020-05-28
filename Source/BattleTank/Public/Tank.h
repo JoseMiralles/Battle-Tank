@@ -47,7 +47,11 @@ public:
 private:
 	/// Launch speed of the projectile.
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 4000;
+	float LaunchSpeed = 4000.f;
+
+	/// The reload speed of the tank in seconds.
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float ReloadTime = 3.f;
 
 	/// The BP to spawn as a projectile when firing.
 	UPROPERTY(EditAnywhere, Category = Setup)
@@ -61,6 +65,8 @@ private:
 	{
 		FTransform STransform;
 		const UStaticMeshSocket* FSocket;
+		bool isloaded = true;
+		double LastFireTime = 0;
 	};
 	FiringParams FP;
 };

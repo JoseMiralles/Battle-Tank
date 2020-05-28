@@ -13,17 +13,8 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	this->TankControlled = GetControlledTank();
-	this->PlayerTank = GetPlayerControlledTank();
-
-	if (this->TankControlled)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TankAIController possesed:\t%s"), *TankControlled->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TankAIController couldn't posses a Tank!"));
-	}
+	this->TankControlled = Cast<ATank>(GetPawn());
+	this->PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 void ATankAIController::Tick(float DeltaTime)
@@ -37,16 +28,6 @@ void ATankAIController::Tick(float DeltaTime)
 			PlayerTank->GetActorLocation());
 
 		/// Fire if ready.
+		this->TankControlled->FireCannon();
 	}
-}
-
-
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerControlledTank() const
-{
-	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }

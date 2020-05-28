@@ -42,9 +42,15 @@ void ATank::SetBarrelReference(UTankBarrel* BarrelToSet, UTankTurret* TurretToSe
 
 void ATank::FireCannon()
 {
-	FP.FSocket->GetSocketTransform (OUT FP.STransform, Barrel);
-	GetWorld()->SpawnActor<AProjectile>
-		(this->ProjectileBlueprint, FP.STransform)->LaunchProjectile(this->LaunchSpeed);
+	FP.isloaded = (FPlatformTime::Seconds() - FP.LastFireTime) > ReloadTime;
+
+	if (FP.isloaded)
+	{
+		FP.FSocket->GetSocketTransform(OUT FP.STransform, Barrel);
+		GetWorld()->SpawnActor<AProjectile>
+			(this->ProjectileBlueprint, FP.STransform)->LaunchProjectile(this->LaunchSpeed);
+		FP.LastFireTime = FPlatformTime::Seconds();
+	}
 }
 
 // Called to bind functionality to input

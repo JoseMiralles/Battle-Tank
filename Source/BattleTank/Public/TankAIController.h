@@ -25,11 +25,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	/// Returns a reference to the tank being controlled by this AI controller.
-	ATank* GetControlledTank() const;
-	/// Returns a reference to the tank being controlled by the Player, NOT by this controller.
-	ATank* GetPlayerControlledTank() const;
-
 private:
 	ATank* TankControlled; /// Tank controlled by this AI controller.
 	ATank* PlayerTank; /// Tank controlled by the player.

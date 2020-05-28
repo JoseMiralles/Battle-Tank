@@ -23,7 +23,7 @@ public:
 private:
     /// The speed of rotation of the turret in degrees per second.
     UPROPERTY(EditAnywhere, Category = Setup)
-        float MaxDegreesPerSecond = 20;
+        float MaxDegreesPerSecond = 25;
 
     /// Used for recycling purposes.
     struct TurretParams

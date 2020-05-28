@@ -8,7 +8,9 @@
 
 #include "TankAimingComponent.generated.h"
 
+/// Foward references
 class UTankBarrel;
+class UTankTurret;
 
 /// Holds barrel's properties and elevate method.
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -21,7 +23,7 @@ public:
 	UTankAimingComponent();
 
 	// Sets references to components of the tank.
-	void SetComponentReferences (UTankBarrel* BarrelToSet, UStaticMeshComponent* Turret);
+	void SetComponentReferences (UTankBarrel* BarrelToSet, UTankTurret* Turret);
 
 	bool isHighArcFiringEnabled = false; /// TODO: Make BP editable.
 
@@ -37,7 +39,7 @@ public:
 
 private:
 	UTankBarrel* Barrel = nullptr;
-	UStaticMeshComponent* Turret = nullptr;
+	UTankTurret* Turret = nullptr;
 
 	/// Used to recycle tick variables.
 	struct AimParams

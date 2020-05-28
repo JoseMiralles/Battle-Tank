@@ -4,6 +4,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 #define OUT
 
@@ -18,7 +19,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 // This is called from the Tank_BP event graph.
 void UTankAimingComponent::SetComponentReferences
-(UTankBarrel* BarrelToSet, UStaticMeshComponent* TurretToSet)
+(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	this->Barrel = BarrelToSet;
 	this->Turret = TurretToSet;
@@ -75,12 +76,7 @@ void UTankAimingComponent::MoveBarrelTowardsAimDirection()
 	/// Difference.
 	AimP.DeltaRotator = AimP.AimAsRotator - AimP.BarrelRotator;
 
-	Barrel->Elevate(AimP.DeltaRotator.Pitch);
-
-	// Rotate the Turret
-	float RotationChange = AimP.DeltaRotator.Yaw * 5 * GetWorld()->DeltaTimeSeconds;
-	float NewRotation = Turret->RelativeRotation.Yaw + RotationChange;
-
-	Turret->SetRelativeRotation(FRotator(0, NewRotation, 0));
+	this->Barrel->Elevate(AimP.DeltaRotator.Pitch);
+	this->Turret->Rotate(AimP.DeltaRotator.Yaw);
 }
 

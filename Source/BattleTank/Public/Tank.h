@@ -9,6 +9,7 @@
 
 /// Forward declaration.
 class UTankBarrel;
+class UTankTurret;
 class UTankAimingComponent;
 
 UCLASS()
@@ -26,7 +27,7 @@ public:
 	void AimAt(FVector HitLocation);
 	/// Passes a reference of the Barrel SM to the tank's TankAimingComponent.
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet, UStaticMeshComponent* TurretToSet); // Should be called from the Tank_BP event graph.
+	void SetBarrelReference(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet); // Should be called from the Tank_BP event graph.
 
 public:
 	/// Launch speed of the projectile.

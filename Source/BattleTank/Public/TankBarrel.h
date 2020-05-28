@@ -21,6 +21,7 @@ public:
 	void Elevate(float direction);
 
 private:
+	/// The speed of elevation for the barrel in degrees per second.
 	UPROPERTY(EditAnywhere, Category = Setup)
 	float MaxDegreesPerSecond = 20;
 	UPROPERTY(EditAnywhere, Category = Setup)
